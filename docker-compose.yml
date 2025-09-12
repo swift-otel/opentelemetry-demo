@@ -107,6 +107,7 @@ services:
       - OTEL_EXPORTER_OTLP_ENDPOINT=http://${OTEL_COLLECTOR_HOST}:${OTEL_COLLECTOR_PORT_HTTP}
       - OTEL_RESOURCE_ATTRIBUTES
       - OTEL_SERVICE_NAME=cart
+      - OTEL_LOG_LEVEL=debug
     depends_on:
       valkey-cart:
         condition: service_started

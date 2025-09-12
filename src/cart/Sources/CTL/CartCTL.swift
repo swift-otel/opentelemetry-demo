@@ -43,7 +43,10 @@ struct CartCTL: AsyncParsableCommand {
                 transportSecurity: .plaintext
             ),
             services: [service],
-            interceptors: [ServerOTelTracingInterceptor(serverHostname: "0.0.0.0", networkTransportMethod: "tcp")]
+            interceptors: [
+                GRPCMetricsInterceptor(serverHostname: "0.0.0.0", networkTransportMethod: "tcp"),
+                ServerOTelTracingInterceptor(serverHostname: "0.0.0.0", networkTransportMethod: "tcp")
+            ]
         )
 
         let serviceGroup = ServiceGroup(
@@ -105,7 +108,7 @@ struct CartService: Oteldemo_CartService.SimpleServiceProtocol {
 
         if useExperimentalAlgorithm {
             logger.info("Using experimental algorithm to clear cart.")
-            throw UnimplementedError()
+            throw RPCError(code: .unimplemented, message: "Experimental cart clearing algorithm not yet implemented.")
         }
 
         let emptyCartBytes: [UInt8] = try Oteldemo_Cart().serializedBytes()
@@ -125,6 +128,4 @@ struct CartService: Oteldemo_CartService.SimpleServiceProtocol {
             return try Oteldemo_Cart(serializedBytes: Array(buffer.readableBytesView))
         }
     }
-
-    struct UnimplementedError: Error {}
 }
