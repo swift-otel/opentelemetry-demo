@@ -101,12 +101,13 @@ services:
     environment:
       - CART_PORT
       - FLAGD_HOST
-      - FLAGD_PORT
-      - VALKEY_ADDR
-      - OTEL_EXPORTER_OTLP_ENDPOINT
+      - FLAGD_OFREP_PORT
+      - VALKEY_HOST
+      - VALKEY_PORT
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://${OTEL_COLLECTOR_HOST}:${OTEL_COLLECTOR_PORT_HTTP}
       - OTEL_RESOURCE_ATTRIBUTES
       - OTEL_SERVICE_NAME=cart
-      - ASPNETCORE_URLS=http://*:${CART_PORT}
+      - OTEL_LOG_LEVEL=debug
     depends_on:
       valkey-cart:
         condition: service_started

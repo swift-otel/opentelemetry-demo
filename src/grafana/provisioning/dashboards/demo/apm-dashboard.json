@@ -405,7 +405,7 @@
           "hide": false,
           "instant": false,
           "interval": "60",
-          "legendFormat": "RPC errors",
+          "legendFormat": "{{ rpc_method }}",
           "range": true,
           "refId": "RPC Err"
         }
